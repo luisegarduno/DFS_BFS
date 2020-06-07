@@ -1,0 +1,6 @@
+or Small-Dataset.txt
+ow graph-output.txt
+dfs A
+bfs A
+mc A D
+dc

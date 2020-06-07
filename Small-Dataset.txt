@@ -1,0 +1,23 @@
+[9]
+A
+B
+C
+D
+E
+F
+G
+H
+I
+[undirected]
+A - B
+A - D
+B - C
+B - E
+C - F
+D - E
+D - G
+E - F
+F - H
+G - H
+G - I
+H - I

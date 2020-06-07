@@ -4,12 +4,9 @@ on: [push]
 
 env:
   EXE_NAME: LinkingSearch
-  ### ***** Students!  Put the name of the input files and output files here.
-  ###   List them in the order that they need to appear in Argv param of main.
-  ###   Output Files will follow input files
-  ###   Note: These should be the actual names of the files.  No double quotes
+
   INPUT_FILES: ControlFile.txt
-  OUTPUT_FILES: g1-output.txt
+  OUTPUT_FILES: graph-output.txt
 
 jobs:
   build:
@@ -73,4 +70,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: project_output
-          path: ${{runner.workspace}}/DepthFirstSearch_BreadthFirstSearch/g1-output.txt
+          path: ${{runner.workspace}}/DepthFirstSearch_BreadthFirstSearch/graph-output.txt
