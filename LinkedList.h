@@ -6,7 +6,14 @@
 #define DEPTHFIRSTSEARCH_BREADTHFIRST_LINKEDLIST_H
 
 #include "Node.h"
+#include <iomanip>
+#include <fstream>
+#include <climits>
 #include <iostream>
+
+using std::cout;
+using std::endl;
+using std::fstream;
 
 template<class T>
 class LinkedList{
@@ -15,10 +22,10 @@ class LinkedList{
     Node<T> * tail;
     Node<T> * iterator;
 
-    int size{};                           // Size of Linked List
+    int size{};                     // Size of Linked List
 
 private:
-    void remove(Node<T>*);        // Remove node
+    void remove(Node<T>*);          // Remove node
 
 public:
     LinkedList();
@@ -26,12 +33,18 @@ public:
     LinkedList(const LinkedList<T>&);
 
     void print();                   // print all values in Linked List
+    void printMatrix(int);          // prints matrix
+    void printGraph_ToFile(fstream&);
+    void printMatrix_ToFile(fstream&,int);
+
     void clear();                   // Clears the Linked List, also used to destruct memory from heap
     void append(T);                 // add node to Linked List
     void removeAt(int);             // remove specific index value (passed in parameter)
     void popLastNode();
 
     T getAt(T);                     // returns element at specific index
+    T popFirstNode();
+    void pushToFront(T);
     LinkedList<T>& operator=(const LinkedList<T>&);
 
     bool operator!=(const LinkedList<T>&) const;
@@ -56,8 +69,8 @@ public:
     ~LinkedList();
 };
 
-template<class T>
-LinkedList<T>::LinkedList(): head(nullptr), tail(nullptr), iterator(nullptr), size(0){        // Default constructor
+template<class T>                   // Default constructor
+LinkedList<T>::LinkedList(): head(nullptr), tail(nullptr), iterator(nullptr), size(0){
 }
 
 template<class T>
@@ -70,8 +83,7 @@ LinkedList<T>::LinkedList(T x) {
 template<class T>
 LinkedList<T>::LinkedList(const LinkedList<T>& originalLinkedList){
 
-
-    if(originalLinkedList.head == nullptr){           // if original Linked List is empty
+    if(originalLinkedList.head == nullptr){       // if original Linked List is empty
         head = tail = nullptr;                    // head is = to nullptr
     }
 
@@ -133,20 +145,34 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& v2LinkedList) {
 }
 
 template<class T>
+T LinkedList<T>::popFirstNode(){
+    T temp = *(head->getData());
+    head = head->getNextNode();
+    return temp;
+}
+
+template<class T>
+void LinkedList<T>::pushToFront(T x){
+    Node<T>* newNode = new Node<T>();
+    newNode->setData(&x);
+    newNode->setNextNode(head);
+    head = newNode;
+}
+
+template<class T>
 void LinkedList<T>::append(T x){
     auto* newNode = new Node<T>(x);
 
-    if(head == nullptr){           // if Linked List is empty
+    if(head == nullptr){                        // if Linked List is empty
         head = newNode;                         // declare new node as the head and tail
         tail = newNode;
     }
     else{
-        tail->setNextNode(newNode);//next = newNode;                   // if linked list contains node already, set the node after the tail = to new node(previously nullptr)
-        newNode->setPreviousNode(tail);// = tail;               // at the end, the previous node prior to declaring new node, is the tail
+        tail->setNextNode(newNode);             // if linked list contains node already, set the node after the tail = to new node(previously nullptr)
+        newNode->setPreviousNode(tail);         // at the end, the previous node prior to declaring new node, is the tail
         tail = newNode;                         // declare new node as the tail
     }
     size++;                                     // increment Linked List Size
-
 }
 
 template<class T>
@@ -156,11 +182,11 @@ void LinkedList<T>::resetIterator(){
 
 template<class T>
 T& LinkedList<T>::getIterator(){
-    return *(iterator->getData());             // return iterator node data
+    return *(iterator->getData());              // return iterator node data
 }
 
 template<class T>
-T& LinkedList<T>::getNextIterator(){                 // points to the next node in the LinkedList
+T& LinkedList<T>::getNextIterator(){            // points to the next node in the LinkedList
     this->iterator = this->iterator->getNextNode();
     return *(iterator->getData());
 }
@@ -188,12 +214,12 @@ void LinkedList<T>::removeAt(int index){
         std::cout << "\nNothing here: (index >= size)" << index << std::endl << std::endl;
     }
     else {
-        Node<T>* temp = head;                        // set the head = to temp Current node
+        Node<T>* temp = head;                   // set the head = to temp Current node
         int count = 0;                          // counter
 
         while (count != index) {
-            temp = temp->getNextNode();            // set the iterator node = to the next node
-            count++;                              // increment counter until index is reached
+            temp = temp->getNextNode();         // set the iterator node = to the next node
+            count++;                            // increment counter until index is reached
         }
 
         remove(temp);
@@ -211,10 +237,9 @@ void LinkedList<T>::print(){
     else{
         Node<T>* aCurrent = head;
 
-        while(aCurrent != nullptr){                 // cycles & prints all values in linked list
-            cout << aCurrent->getData()->getPredecessorNode() << " (";
-            cout << aCurrent->getData()->getVertexNode() << ", " << aCurrent->getData()->getBetweeness() << ", ";
-            cout << aCurrent->getData()->getVisitedFlag() << ") ";
+        while(aCurrent != nullptr){             // cycles & prints all values in linked list
+            cout << aCurrent->getData()->getVertexNode_B() << " (";
+            cout << aCurrent->getData()->getWeight() << ")";
             aCurrent = aCurrent->getNextNode();
             if(aCurrent != nullptr){
                 cout << "--> ";
@@ -225,20 +250,169 @@ void LinkedList<T>::print(){
 }
 
 template<class T>
+void LinkedList<T>::printMatrix(int x){
+    if(head == nullptr){
+        cout << "Nothing Available" << endl;
+    }
+
+    else{
+        Node<T>* vertex_Iterator = head;
+        int counter = 1;
+        int vertexNode_A = stoi(vertex_Iterator->getData()->getVertexNode_A());
+
+        while(vertex_Iterator != nullptr){
+            int vertexNode_B = stoi(vertex_Iterator->getData()->getVertexNode_B());
+
+            if(vertexNode_A == vertexNode_B || vertexNode_A == counter){
+                if(vertexNode_A == counter){
+                    cout << std::setw(4) << std::left << "0";
+                    counter++;
+                    vertex_Iterator = vertex_Iterator->getNextNode();
+                    continue;
+                }
+            }
+
+            else if(vertexNode_B < counter){
+                if(counter > x){
+                    counter = vertexNode_A + 1;
+                }
+            }
+
+            if(vertexNode_B != counter){
+                while(vertexNode_A != counter && counter <= x){
+                    counter++;
+                }
+            }
+
+            else if(vertexNode_B == counter){
+                if(vertex_Iterator->getData()->getWeight() == INT_MAX){
+                    cout << std::setw(4) << std::left << "INF";
+                    counter++;
+                }
+                else if(vertex_Iterator->getData()->getWeight() != INT_MAX) {
+                    cout << std::setw(4) << std::left << vertex_Iterator->getData()->getWeight();
+                    counter++;
+                }
+
+                if(counter > x){
+                    break;
+                }
+            }
+
+            vertex_Iterator = vertex_Iterator->getNextNode();
+
+            if(vertex_Iterator == nullptr){
+                while(counter <= x){
+                    cout << std::setw(4) << std::left << "0";
+                    counter++;
+                }
+                vertex_Iterator == nullptr;
+            }
+        }
+        cout << endl;
+    }
+}
+
+template<class T>
+void LinkedList<T>::printGraph_ToFile(fstream& fout){
+    if(head == nullptr){
+        fout << "Nothing Available" << endl;
+    }
+
+    else{
+        Node<T>* aCurrent = head;
+
+        while(aCurrent != nullptr){             // cycles & prints all values in linked list
+            fout << aCurrent->getData()->getVertexNode_B() << " (";
+            fout << aCurrent->getData()->getWeight() << ")";
+            aCurrent = aCurrent->getNextNode();
+            if(aCurrent != nullptr){
+                fout << "--> ";
+            }
+        }
+        fout << endl;
+    }
+}
+
+template<class T>
+void LinkedList<T>::printMatrix_ToFile(fstream& fout, int x){
+
+    if(head == nullptr){
+        fout << "Nothing Available" << endl;
+    }
+
+    else{
+        Node<T>* vertex_Iterator = head;
+        int counter = 1;
+        int vertexNode_A = stoi(vertex_Iterator->getData()->getVertexNode_A());
+
+        while(vertex_Iterator != nullptr){
+            int vertexNode_B = stoi(vertex_Iterator->getData()->getVertexNode_B());
+
+            if(vertexNode_A == vertexNode_B || vertexNode_A == counter){
+                if(vertexNode_A == counter){
+                    fout << std::setw(4) << std::left << "0";
+                    counter++;
+                    vertex_Iterator = vertex_Iterator->getNextNode();
+                    continue;
+                }
+            }
+
+            else if(vertexNode_B < counter){
+                if(counter > x){
+                    counter = vertexNode_A + 1;
+                }
+            }
+
+            if(vertexNode_B != counter){
+                while(vertexNode_A != counter && counter <= x){
+                    counter++;
+                }
+            }
+
+            else if(vertexNode_B == counter){
+                if(vertex_Iterator->getData()->getWeight() == INT_MAX){
+                    fout << std::setw(4) << std::left << "INF";
+                    counter++;
+                }
+                else if(vertex_Iterator->getData()->getWeight() != INT_MAX) {
+                    fout << std::setw(4) << std::left << vertex_Iterator->getData()->getWeight();
+                    counter++;
+                }
+                if(counter > x){
+                    break;
+                }
+            }
+
+            vertex_Iterator = vertex_Iterator->getNextNode();
+
+            if(vertex_Iterator == nullptr){
+                while(counter <= x){
+                    fout << std::setw(4) << std::left << "0";
+                    counter++;
+                }
+                vertex_Iterator == nullptr;
+            }
+        }
+        fout << endl;
+    }
+}
+
+template<class T>
 void LinkedList<T>::remove(Node<T>* iteratorNode){
-    Node<T>* nextNode = iteratorNode->next;
-    Node<T>* previousNode = iteratorNode->previous;
+    Node<T>* nextNode = iteratorNode->getNextNode();
+    Node<T>* previousNode = iteratorNode->getPreviousNode();
 
     if (nextNode != nullptr) {
-        nextNode->previous = previousNode;
+        nextNode->setPreviousNode(previousNode);
     }
     if (previousNode != nullptr) {
-        previousNode->next = nextNode;
+        previousNode->setNextNode(nextNode);
     }
     if (iteratorNode == head) {
-        head = nextNode;                        // deletes head and new head is declared
+        head = nextNode;                    // deletes head and new head is declared
     }
-    if (iteratorNode == tail) {                    // deletes tail
+    if (iteratorNode == tail) {             // deletes tail
         tail = previousNode;
     }
     delete iteratorNode;
@@ -260,13 +434,13 @@ T LinkedList<T>::getAt(T x){
         return -1;
     }
     else{
-        Node<T>* aCurrent = head;         // begin at head
+        Node<T>* aCurrent = head;               // begin at head
 
         for(int i = 0; i < x; i++){
-            aCurrent = aCurrent->next;      // cycle through Linked List
+            aCurrent = aCurrent->getNextNode(); // cycle through Linked List
         }
 
-        return aCurrent->data;              // return element from linked list (specified in parameter
+        return *(aCurrent->getData());          // return element from linked list (specified in parameter
     }
 }
 
@@ -284,10 +458,6 @@ template<class T>
 void LinkedList<T>::setLinkedList_head(Node<T> * newHead){
     head = newHead;
 }
-
-// /usr/bin/cmake --build "Debug" --target LinkingSearch -- -j 4
-// /usr/bin/cmake --build "WSL"   --target LinkingSearch -- -j 4
-
 
 template<class T>
 void LinkedList<T>::setLinkedList_tail(Node<T> * newTail){
@@ -348,10 +518,10 @@ bool LinkedList<T>::operator!=(const LinkedList<T>& aLinkedList)const {
 
 }
 
-
 template<class T>
 LinkedList<T>::~LinkedList<T>(){
     clear();                                // call the clear member function to deconstruct elements from HEAP
 }
+
 
 #endif //DEPTHFIRSTSEARCH_BREADTHFIRST_LINKEDLIST_H
