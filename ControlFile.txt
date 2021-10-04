@@ -1,6 +1,6 @@
-or Small-Dataset.txt
-ow graph-output.txt
-dfs A
-bfs A
-mc A D
+or Football-Dataset.txt
+ow graph_2-output.txt
+dfs Iowa
+bfs Tulsa
+mc Iowa Tulsa
 dc
