@@ -65,14 +65,14 @@ jobs:
         run: ls -al ${{runner.workspace}}/build
 
       - name: List where artifact is located
-        run: ls -halt ${{runner.workspace}}/DepthFirstSearch_BreadthFirst
+        run: ls -halt ${{runner.workspace}}/DFS_BFS
 
       - name: Run the project
         working-directory: ${{runner.workspace}}/build
         run: ./$EXE_NAME $INPUT_FILES $OUTPUT_FILES
 
       - name: Copy output files to artifact directory
-        working-directory: ${{runner.workspace}}/DepthFirstSearch_BreadthFirst
+        working-directory: ${{runner.workspace}}/DFS_BFS
         run: |
           mkdir artifacts
           for f in $OUTPUT_FILES
@@ -84,4 +84,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: project_output
-          path: ${{runner.workspace}}/DepthFirstSearch_BreadthFirst/graph-output.txt
+          path: ${{runner.workspace}}/DFS_BFS/graph-output.txt
