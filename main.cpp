@@ -1,10 +1,9 @@
 //
-// Created by Luis on 6/7/2020.
+// Updated by Luis G. on 07/16/2023.
 //
 
 #include <iostream>
 #include "FileReader.h"
-#include "SocialNetwork.h"
 #include "MissingFilesException.h"
 
 using namespace std;
@@ -19,9 +18,6 @@ int main(int argc,char * argv[]) {
         else{
             FileReader * controlFile = new FileReader();
             controlFile->setCommands(argv[1]);
-
-
-            SocialNetwork createNetwork(controlFile);
 
             delete controlFile;
         }

@@ -1,7 +1,8 @@
 # DFS & BFS
 
-Example network input: 
-
+### Pre-requisites
+* Network input file: specify number of nodes as well as whether the graph is directed or undirected.
+  * Example network input:
 ```text
 [7]
 A
@@ -23,29 +24,25 @@ G - F
 E - F
 ```
 
-You'll read in a control file that will contain a set of commands to be processed by your project. 
-* `or` - Open a file for reading.  Takes one argument - the file name. 
-  * ex: `or g1.txt`
-* `ow` - set the output file.  Takes one argument - the name of the file. 
-  * ex: `ow g1-output.txt`
-* `dfs` - Depth first search.  Takes one argument - the start node. 
-  * ex: `dfs E`
-  * Output: To come
-* `bfs` - Breadth first search. Takes one argument - the start node.
-  * ex: `bfs G`
-  * Output: To come
-* `mc` - Make a Connection with the smallest number of introductions.  Takes two arguments - the two people to attempt to connect. 
-  * ex: `mc A D`
-  * Output: A set of introductions that need to be made in order for person A to be introduced to person D.
-  * Ex: `{(A - B), (B - D)}`
-* `dc` - Discover Communities.  No arguments.  Implement the [Girvan-Newman algorithm](https://en.wikipedia.org/wiki/Girvan%E2%80%93Newman_algorithm) a set of reasonably well connected communities.  You will define "reasonably". 
-  * Output: a set of communities, each community identified by its members presented in alphabetic order.
-  * Additional Resources on Girvan-Newman Algorithm:
-    * Chapter 10 Section 2 of [Mining Massive Data Sets](http://infolab.stanford.edu/~ullman/mmds/book0n.pdf)
-    * [Social and Information Network Analysis Course Slide Deck 14](http://snap.stanford.edu/class/cs224w-2010/slides/14-communities_annot.pdf)
-    * Girvan M. and Newman M. E. J., [Community structure in social and biological networks](https://www.pnas.org/content/99/12/7821), Proc. Natl. Acad. Sci. USA 99, 7821–7826 (2002).  
+### Instructions
+1. Create a __*ControlFile.txt*__ that contains a set of commands to be processed by the program.
+   * **`or` - Open a file for reading. Takes one argument - the file name. 
+   * **`ow` - set the output file. Takes one argument - the name of the file. 
+   * `dfs` - Depth first search. Takes one argument - the start node.
+   * `bfs` - Breadth first search. Takes one argument - the start node.
+   * `mc` - Make a Connection with the smallest number of introductions. Takes two arguments - the two people to attempt to connect. 
+     * Output: A set of connections that need to be made in order for node A to get to Node B.
+     * Ex: `{(A - B), (B - D)}`
+2. Compile/Build the project `$ g++ std=c++11 *.cpp -o LinkingSearch.o`
+3. Run the project `$ LinkingSearch.o ControlFile.txt`
 
+Example __*ControlFile.txt*__:
+```text
+or g1.txt
+ow g1-output.txt
+dfs E
+bfs G
+mc A D
+```
 
-
-
-                                     ``
+** Note: Required commands  
