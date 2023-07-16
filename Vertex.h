@@ -1,10 +1,9 @@
 //
-// Created by Luis on 6/7/2020.
+// Updated by Luis G. on 07/16/2023.
 //
 
-#ifndef DEPTHFIRSTSEARCH_BREADTHFIRST_VERTEX_H
-#define DEPTHFIRSTSEARCH_BREADTHFIRST_VERTEX_H
-
+#ifndef SHORTESTPATH_VERTEX_H
+#define SHORTESTPATH_VERTEX_H
 
 #include <string>
 #include <iostream>
@@ -41,4 +40,4 @@ public:
 };
 
 
-#endif //DEPTHFIRSTSEARCH_BREADTHFIRST_VERTEX_H
+#endif // SHORTESTPATH_VERTEX_H

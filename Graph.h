@@ -1,5 +1,5 @@
 //
-// Created by Luis on 6/7/2020.
+// Updated by Luis G. on 07/16/2023.
 //
 
 #ifndef DEPTHFIRSTSEARCH_BREADTHFIRST_GRAPH_H
@@ -148,4 +148,4 @@ void Graph<T>::printGraph(){
     cout << "------------------------------------------------------------------------------------------- " << endl;
 }
 
-#endif //DEPTHFIRSTSEARCH_BREADTHFIRST_GRAPH_H
+#endif // SHORTESTPATH_GRAPH_H

@@ -1,9 +1,9 @@
 //
-// Created by Luis on 6/7/2020.
+// Updated by Luis G. on 07/16/2023.
 //
 
-#ifndef DEPTHFIRSTSEARCH_BREADTHFIRST_LINKEDLIST_H
-#define DEPTHFIRSTSEARCH_BREADTHFIRST_LINKEDLIST_H
+#ifndef SHORTESTPATH_LINKEDLIST_H
+#define SHORTESTPATH_LINKEDLIST_H
 
 #include "Node.h"
 #include <iomanip>
@@ -524,4 +524,4 @@ LinkedList<T>::~LinkedList<T>(){
 }
 
 
-#endif //DEPTHFIRSTSEARCH_BREADTHFIRST_LINKEDLIST_H
+#endif // SHORTESTPATH_LINKEDLIST_H

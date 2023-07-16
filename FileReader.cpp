@@ -4,7 +4,6 @@
 
 #include "FileReader.h"
 
-#include <utility>
 
 // Default constructor
 FileReader::FileReader(){
@@ -60,10 +59,6 @@ void FileReader::setCommands(const char argv[]) {
             setConnection_2(word);
         }
 
-        if(word == "dc"){
-            cfin >> word;
-            isDC = true;
-        }
     }
 
     closeFiles();

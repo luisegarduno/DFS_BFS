@@ -1,9 +1,9 @@
 //
-// Created by Luis on 6/7/2020.
+// Updated by Luis G. on 07/16/2023
 //
 
-#ifndef DEPTHFIRSTSEARCH_BREADTHFIRST_SEARCH_H
-#define DEPTHFIRSTSEARCH_BREADTHFIRST_SEARCH_H
+#ifndef SHORTESTPATH_SEARCH_H
+#define SHORTESTPATH_SEARCH_H
 
 
 #include <queue>
@@ -48,4 +48,4 @@ public:
     static void resetVertexFlags_BFS(map_Vertex&);
 };
 
-#endif //DEPTHFIRSTSEARCH_BREADTHFIRST_SEARCH_H
+#endif // SHORTESTPATH_SEARCH_H
