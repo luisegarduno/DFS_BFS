@@ -45,7 +45,7 @@ vector<map_Edges> Search::findBFS_at(string startNode, Graph<Vertex>* currentGra
     int i = 1;
 
     bool flag = false;
-    priority_queue <int, vector<int>, greater<>> magic_nodes;
+    priority_queue <int, vector<int>, greater<int>> magic_nodes;
     children_original.setLinkedList_iterator(children_original.getLinkedList_head());
     static int totalBetweeness_BFS;
     while(!flag){
